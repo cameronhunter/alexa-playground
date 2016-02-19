@@ -1,0 +1,32 @@
+#!/usr/bin/env babel-node
+
+import Express from "express";
+import compression from "compression";
+import path from "path";
+import application from "../src/server";
+
+// Development imports
+import webpack from "webpack";
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import config from "../webpack.config.babel.js";
+
+const isProduction = process.env.NODE_ENV === 'production';
+const port = (isProduction && process.env.PORT) || 3001;
+
+const app = new Express();
+
+if (!isProduction) {
+  app.use(webpackDevMiddleware(webpack(config), {
+    publicPath: config.output.publicPath,
+    quiet: true
+  }));
+} else {
+  app.use(Express.static(path.join(__dirname, "..", "static")));
+}
+
+app.use(compression());
+app.use(application);
+
+app.listen(port, error => {
+  console.info(`🌎  Open http://localhost:${port} in a browser to view the app`);
+});
