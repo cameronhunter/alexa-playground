@@ -20,10 +20,9 @@ if (!isProduction) {
     publicPath: config.output.publicPath,
     quiet: true
   }));
-} else {
-  app.use(Express.static(path.join(__dirname, "..", "static")));
 }
 
+app.use(Express.static(path.join(__dirname, "..", "static")));
 app.use(compression());
 app.use(application);
 
