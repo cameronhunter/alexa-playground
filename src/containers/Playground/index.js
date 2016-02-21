@@ -6,7 +6,7 @@ import RequestFixture from '../../fixtures/request';
 
 import SkillEditor from '../../components/SkillEditor';
 import RequestEditor from '../../components/RequestEditor';
-import SkillOutput from '../../components/SkillOutput';
+import SkillResponse from '../../components/SkillResponse';
 
 export default class Playground extends React.Component {
   static defaultProps = {
@@ -29,7 +29,7 @@ export default class Playground extends React.Component {
           <SkillEditor value={this.state.skill} onChange={skill => this.setState({ skill })} />
           <SplitPanel direction='vertical' defaultWeights={[50, 50]}>
             <RequestEditor value={this.state.request} onChange={request => this.setState({ request })} />
-            <SkillOutput skill={this.state.skill} request={this.state.request} />
+            <SkillResponse skill={this.state.skill} request={this.state.request} />
           </SplitPanel>
         </SplitPanel>
       </div>
