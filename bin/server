@@ -27,5 +27,5 @@ app.use(compression());
 app.use(application);
 
 app.listen(port, error => {
-  console.info(`🌎  Open http://localhost:${port} in a browser to view the app`);
+  console.info(`🌎  Open http://localhost:${port} in a browser to view the app (${isProduction ? 'production' : 'development'})`);
 });

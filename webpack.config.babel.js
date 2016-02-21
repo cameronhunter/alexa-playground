@@ -13,6 +13,7 @@ export default {
   },
   module: {
     loaders: [
+      { test: /\.json$/, loader: "json-loader" },
       { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader", query: { cacheDirectory: true } }
     ]
   },
@@ -21,5 +22,10 @@ export default {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
     new webpack.NoErrorsPlugin()
-  ]
+  ],
+  node: {
+    fs: 'empty',
+    module: 'empty',
+    net: 'empty'
+  }
 }

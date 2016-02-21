@@ -5,18 +5,29 @@ import SkillFixture from '../../fixtures/skill';
 import RequestFixture from '../../fixtures/request';
 
 import JSONEditor from '../../components/JSONEditor';
+import SkillExecutor from '../../components/SkillExecutor';
 import JavascriptEditor from '../../components/JavascriptEditor';
 
-export default props => {
-  return (
-    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-      <SplitPanel direction="horizontal" defaultWeights={[50, 50]}>
-        <JavascriptEditor value={SkillFixture} {...props} />
-        <SplitPanel direction="vertical" defaultWeights={[50, 50]}>
-          <JSONEditor value={RequestFixture} options={{ lineNumbers: false }} />
-          <JSONEditor options={{ lineNumbers: false, readOnly: true }} />
+export default class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      skill: SkillFixture,
+      request: RequestFixture
+    }
+  }
+
+  render() {
+    return (
+      <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+        <SplitPanel direction="horizontal" defaultWeights={[60, 40]}>
+          <JavascriptEditor value={this.state.skill} onChange={skill => this.setState({ skill })} />
+          <SplitPanel direction="vertical" defaultWeights={[50, 50]}>
+            <JSONEditor value={this.state.request} onChange={request => this.setState({ request })} lineNumbers={false} />
+            <SkillExecutor skill={this.state.skill} request={this.state.request} />
+          </SplitPanel>
         </SplitPanel>
-      </SplitPanel>
-    </div>
-  );
+      </div>
+    );
+  }
 };

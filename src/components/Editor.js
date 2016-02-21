@@ -1,5 +1,5 @@
 import React from 'react';
-import CodeMirror from 'react-codemirror';
+import CodeMirror from 'react-code-mirror';
 
 try {
   require('codemirror/mode/javascript/javascript');
@@ -7,17 +7,24 @@ try {
   // Don't include in server rendering
 }
 
-const defaultOptions = {
-  tabSize: 2,
-  lineNumbers: true,
-  viewportMargin: Infinity
-};
+export default class Editor extends React.Component {
+  static defaultProps = {
+    tabSize: 2,
+    lineNumbers: true,
+    viewportMargin: Infinity,
+    matchBrackets: true,
+    smartIndent: true,
+    foldGutter: true,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+    onChange: src => {}
+  };
 
-export default class JavascriptEditor extends React.Component {
+  onChange({ target }) {
+    this.setState({ value: target.value });
+    this.props.onChange(target.value);
+  }
+
   render() {
-    const { options, ...rest } = this.props;
-    return (
-      <CodeMirror {...rest} options={{ ...defaultOptions, ...this.props.options }} className="Editor" />
-    );
+    return <CodeMirror {...this.props} {...this.state} onChange={(...args) => this.onChange(...args)} style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }} />;
   }
 }

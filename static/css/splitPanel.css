@@ -26,7 +26,7 @@
   -ms-user-select: none;
 }
 .split-panel > .split-panel-divider {
-  background: #999;
+  background: #ddd;
 }
 .split-panel.horizontal > .split-panel-divider,
 .split-panel.horizontal > .split-panel-item {
