@@ -18,7 +18,7 @@ export default class SkillResponse extends React.Component {
 
     const Skill = Try(() => {
       const exports = {};
-      const { Response, Launch, Intent, Skill } = require('alexa-lambda-skill');
+      const { Response, Launch, Intent, Skill, SessionEnded } = require('alexa-lambda-skill');
       const source = transform(props.skill, {
         presets: [es2015, stage1],
         plugins: [decorators, commonjs]
