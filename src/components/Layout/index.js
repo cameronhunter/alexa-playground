@@ -1,13 +1,5 @@
 import React from 'react';
-
-const style = {
-  backgroundColor: '#efefef',
-  borderStyle: 'solid',
-  borderColor: '#ddd',
-  borderWidth: 0,
-  color: '#555',
-  padding: 10
-};
+import style from './style';
 
 export default class Layout extends React.Component {
   static defaultProps = {
@@ -16,14 +8,14 @@ export default class Layout extends React.Component {
 
   render() {
     return (
-      <div id="app" style={{ display: 'flex', flexDirection: 'column', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-        <header style={{ ...style, borderBottomWidth: 1 }}>
+      <div id="app" className={style.root}>
+        <header className={style.header}>
           {this.props.title}
         </header>
-        <main style={{ flexGrow: '1', position: 'relative' }}>
+        <main className={style.main}>
           {this.props.children}
         </main>
-        <footer style={{ ...style, borderTopWidth: 1, textAlign: 'center' }}>
+        <footer className={style.footer}>
           Built using <a href="http://facebook.github.io/react/">React</a>, <a href="http://babeljs.io/">Babel</a> and <a href="http://codemirror.net/">CodeMirror</a> | <a href="https://github.com/cameronhunter/alex-playground">GitHub</a>
         </footer>
       </div>

@@ -5,14 +5,25 @@
   "license": "MIT",
   "author": "Cameron Hunter <hello@cameronhunter.co.uk>",
   "scripts": {
-    "build": "webpack",
-    "build:production": "NODE_ENV=production webpack -p",
+    "build": "npm run build:client && npm run build:server",
+    "build:production": "NODE_ENV=production npm run build",
+
+    "build:client": "webpack --config webpack.client.config.babel.js",
+    "build:client:production": "NODE_ENV=production npm run build:client",
+
+    "build:server": "webpack --config webpack.server.config.babel.js",
+    "build:server:production": "NODE_ENV=production npm run build:server",
+
+    "prestart": "npm run build",
     "start": "nodemon --watch src --exec babel-node ./bin/server",
+
     "prestart:production": "npm run build:production",
     "start:production": "NODE_ENV=production babel-node ./bin/server",
+
     "lint": "eslint src bin",
-    "pretest": "npm run lint",
-    "test": "ava -r babel-register -r babel-polyfill **/**/__tests__/*-test.js"
+
+    "test": "ava -r babel-register -r babel-polyfill **/**/__tests__/*-test.js",
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -42,13 +53,17 @@
     "babel-preset-stage-1": "^6.5.0",
     "babel-register": "^6.4.3",
     "codemirror": "^5.11.0",
+    "css-loader": "^0.23.1",
+    "cssnext": "^1.8.4",
     "eslint": "^2.2.0",
     "json-loader": "^0.5.4",
     "nodemon": "^1.8.1",
+    "postcss-loader": "^0.8.1",
     "promise-try": "^1.0.1",
     "react-code-mirror": "^3.0.6",
     "react-codemirror": "^0.2.5",
     "react-split-panel": "^2.0.1",
+    "style-loader": "^0.13.0",
     "supertest": "^1.1.0",
     "supertest-as-promised": "^2.0.2",
     "webpack": "^1.12.12",

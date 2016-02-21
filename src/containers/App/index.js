@@ -1,14 +1,5 @@
 import React from 'react';
 
-const style = {
-  backgroundColor: '#efefef',
-  borderStyle: 'solid',
-  borderColor: '#ddd',
-  borderWidth: 0,
-  color: '#555',
-  padding: 10
-};
-
 export default props => (
   <html>
     <head>

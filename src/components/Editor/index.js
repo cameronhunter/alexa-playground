@@ -1,6 +1,8 @@
 import React from 'react';
 import CodeMirror from 'react-code-mirror';
 
+import style from './style';
+
 export default class Editor extends React.Component {
   static defaultProps = {
     tabSize: 2,
@@ -17,6 +19,6 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    return <CodeMirror {...this.props} {...this.state} onChange={({ target }) => this.onChange(target.value)} style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }} />;
+    return <CodeMirror className={style.root} {...this.props} {...this.state} onChange={({ target }) => this.onChange(target.value)} />;
   }
 }

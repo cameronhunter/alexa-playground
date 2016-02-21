@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import cssnext from 'cssnext';
 import path from 'path';
 
 export default {
@@ -28,9 +29,16 @@ export default {
   },
   module: {
     loaders: [
+      { test: /\.css$/, loader: ['style-loader', 'css-loader?module', 'postcss-loader'].join('!') },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader', query: { cacheDirectory: true } }
     ]
+  },
+  postcss: [
+    cssnext({ browsers: 'last 2 versions' })
+  ],
+  resolve: {
+    extensions: ['', '.json', '.js', '.jsx', '.css']
   },
   plugins: [
     new webpack.optimize.DedupePlugin(),

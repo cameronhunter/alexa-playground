@@ -1,14 +1,14 @@
 #!/usr/bin/env babel-node
 
-import Express from "express";
-import compression from "compression";
-import path from "path";
-import application from "../src/server";
+import Express from 'express';
+import compression from 'compression';
+import path from 'path';
+import application from '../build/server';
 
 // Development imports
-import webpack from "webpack";
+import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import config from "../webpack.config.babel.js";
+import config from '../webpack.client.config.babel.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const port = (isProduction && process.env.PORT) || 3001;
@@ -22,7 +22,7 @@ if (!isProduction) {
   }));
 }
 
-app.use(Express.static(path.join(__dirname, "..", "static")));
+app.use(Express.static(path.join(__dirname, '..', 'static')));
 app.use(compression());
 app.use(application);
 

@@ -9,6 +9,8 @@ import SkillEditor from '../../components/SkillEditor';
 import RequestEditor from '../../components/RequestEditor';
 import SkillResponse from '../../components/SkillResponse';
 
+import style from './style.css';
+
 export default class Playground extends React.Component {
   static defaultProps = {
     skill: SkillFixture,
@@ -26,7 +28,7 @@ export default class Playground extends React.Component {
   render() {
     return (
       <Layout>
-        <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+        <div className={style.root}>
           <SplitPanel direction='horizontal' defaultWeights={[60, 40]}>
             <SkillEditor value={this.state.skill} onChange={skill => this.setState({ skill })} />
             <SplitPanel direction='vertical' defaultWeights={[50, 50]}>

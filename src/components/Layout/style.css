@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.header {
+  background-color: #efefef;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+  padding: 10px;
+}
+
+.main {
+  flex-grow: 1;
+  position: relative;
+}
+
+.footer {
+  background-color: #efefef;
+  border-top: 1px solid #ddd;
+  color: #555;
+  padding: 10px;
+  text-align: center;
+}
