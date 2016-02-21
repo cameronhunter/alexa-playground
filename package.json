@@ -5,9 +5,10 @@
   "license": "MIT",
   "author": "Cameron Hunter <hello@cameronhunter.co.uk>",
   "scripts": {
-    "build": "webpack -p",
+    "build": "webpack",
+    "build:production": "NODE_ENV=production webpack -p",
     "start": "nodemon --watch src --exec babel-node ./bin/server",
-    "prestart:production": "npm run build",
+    "prestart:production": "npm run build:production",
     "start:production": "NODE_ENV=production babel-node ./bin/server",
     "lint": "eslint src bin",
     "pretest": "npm run lint",

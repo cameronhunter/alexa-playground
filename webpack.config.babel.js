@@ -21,7 +21,10 @@ export default {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`
+    })
   ],
   node: {
     fs: 'empty',
