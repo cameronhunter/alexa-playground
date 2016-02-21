@@ -24,7 +24,7 @@ export default class Layout extends React.Component {
           {this.props.children}
         </main>
         <footer style={{ ...style, borderTopWidth: 1, textAlign: 'center' }}>
-          Built using <a href="http://facebook.github.io/react/">React</a>, <a href="http://babeljs.io/">Babel</a> and <a href="http://codemirror.net/">CodeMirror</a> | <a href="https://github.com/fkling/esprima_ast_explorer">GitHub</a>
+          Built using <a href="http://facebook.github.io/react/">React</a>, <a href="http://babeljs.io/">Babel</a> and <a href="http://codemirror.net/">CodeMirror</a> | <a href="https://github.com/cameronhunter/alex-playground">GitHub</a>
         </footer>
       </div>
     );
