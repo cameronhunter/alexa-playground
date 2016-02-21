@@ -7,7 +7,7 @@ import es2015 from 'babel-preset-es2015';
 import stage1 from 'babel-preset-stage-1';
 import { transform } from 'babel-core';
 
-export default class SkillExecutor extends React.Component {
+export default class SkillOutput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -25,6 +25,7 @@ export default class SkillExecutor extends React.Component {
       });
 
       eval(source.code);
+
       return exports.default;
     });
 

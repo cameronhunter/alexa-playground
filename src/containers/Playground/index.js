@@ -8,13 +8,18 @@ import SkillEditor from '../../components/SkillEditor';
 import RequestEditor from '../../components/RequestEditor';
 import SkillOutput from '../../components/SkillOutput';
 
-export default class Home extends React.Component {
+export default class Playground extends React.Component {
+  static defaultProps = {
+    skill: SkillFixture,
+    request: RequestFixture
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      skill: SkillFixture,
-      request: RequestFixture
-    }
+      skill: props.skill,
+      request: props.request
+    };
   }
 
   render() {
