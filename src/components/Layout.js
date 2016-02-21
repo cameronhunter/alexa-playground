@@ -11,7 +11,7 @@ const style = {
 
 export default class Layout extends React.Component {
   static defaultProps = {
-    title: 'Alexa Skill Playground'
+    title: 'Alexa Playground'
   };
 
   render() {
