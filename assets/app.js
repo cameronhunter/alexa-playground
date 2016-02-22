@@ -1079,11 +1079,7 @@ webpackJsonp([1],{
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = _react2.default.createElement(
-	  _reactRouter.Route,
-	  { path: '/' },
-	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Playground2.default })
-	);
+	exports.default = _react2.default.createElement(_reactRouter.Route, { path: '*', component: _Playground2.default });
 
 /***/ },
 
