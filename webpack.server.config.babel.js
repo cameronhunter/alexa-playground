@@ -19,7 +19,7 @@ export default {
     ...config.module,
     loaders: [
       ...config.module.loaders,
-      { test: /\.css$/, loader: ['css-loader?module', 'postcss-loader'].join('!') }
+      { test: /\.css$/, loader: ['css/locals?module', 'postcss'].join('!') }
     ]
   },
   plugins: [

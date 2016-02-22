@@ -31,7 +31,7 @@ export default {
     ...config.module,
     loaders: [
       ...config.module.loaders,
-      { test: /\.css$/, loader: ['style-loader', 'css-loader?module', 'postcss-loader'].join('!') }
+      { test: /\.css$/, loader: ['style', 'css?module', 'postcss'].join('!') }
     ]
   },
   plugins: [
