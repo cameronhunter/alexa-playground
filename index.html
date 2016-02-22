@@ -1,0 +1,35 @@
+<!doctype html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/codemirror.css"/><link rel="stylesheet" href="assets/splitPanel.css"/></head><body><div id="app"><header>Alexa Playground</header><main><div><div class="split-panel horizontal"><object class="split-panel-resize-hack-object" type="text/html"></object><div class="split-panel-item" style="width:25px;left:0;"><div><textarea>@Skill
+export default class HelloWorld {
+
+  @Launch
+  launch() {
+    return Response.ask(&#x27;Welcome to the Alexa Skills Kit, you can say hello&#x27;).reprompt(&#x27;You can say hello&#x27;);
+  }
+
+  @Intent(&#x27;HelloWorldIntent&#x27;)
+  hello({ name = &#x27;World&#x27; }) {
+    return Response.say(`Hello ${name}!`).card(&#x27;Greeter&#x27;, `Hello ${name}!`);
+  }
+
+  @Intent(&#x27;AMAZON.HelpIntent&#x27;)
+  help() {
+    return Response.ask(&#x27;You can say hello to me!&#x27;).reprompt(&#x27;You can say hello to me!&#x27;);
+  }
+
+}
+</textarea></div></div><div class="split-panel-divider" style="left:-5px;"></div><div class="split-panel-item" style="width:25px;left:0;"><div class="split-panel vertical"><object class="split-panel-resize-hack-object" type="text/html"></object><div class="split-panel-item" style="height:25px;top:0;"><div><textarea>{
+  &quot;request&quot;: {
+    &quot;type&quot;: &quot;IntentRequest&quot;,
+    &quot;intent&quot;: {
+      &quot;name&quot;: &quot;HelloWorldIntent&quot;,
+      &quot;slots&quot;: {
+        &quot;name&quot;: {
+          &quot;name&quot;: &quot;name&quot;,
+          &quot;value&quot;: &quot;Alexa&quot;
+        }
+      }
+    }
+  }
+}
+</textarea></div></div><div class="split-panel-divider" style="top:-5px;"></div><div class="split-panel-item" style="height:25px;top:0;"><div><textarea readonly=""></textarea></div></div></div></div></div></div></main><footer>Built using <a href="http://facebook.github.io/react/">React</a>, <a href="http://babeljs.io/">Babel</a> and <a href="http://codemirror.net/">CodeMirror</a> | <a href="https://github.com/cameronhunter/alex-playground">GitHub</a></footer></div><script src="assets/vendor.js"></script><script src="assets/app.js"></script></body></html>
