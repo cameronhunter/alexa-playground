@@ -4,8 +4,7 @@ export default props => (
   <html>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="/css/splitPanel.css" />
-      <link rel="stylesheet" href="/css/codemirror.css" />
+      { Object.entries(props.styles).map(([key, href]) => <link key={key} rel="stylesheet" href={href} />) }
     </head>
     <body>
       { props.children }

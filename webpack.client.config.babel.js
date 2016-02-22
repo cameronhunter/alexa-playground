@@ -1,8 +1,9 @@
 import webpack from 'webpack';
-import cssnext from 'cssnext';
 import path from 'path';
+import config from './webpack.common.config.babel.js';
 
 export default {
+  ...config,
   entry: {
     app: path.join(__dirname, 'src', 'client.js'),
     vendor: [
@@ -28,26 +29,15 @@ export default {
     publicPath: '/dist'
   },
   module: {
+    ...config.module,
     loaders: [
-      { test: /\.css$/, loader: ['style-loader', 'css-loader?module', 'postcss-loader'].join('!') },
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader', query: { cacheDirectory: true } }
+      ...config.module.loaders,
+      { test: /\.css$/, loader: ['style-loader', 'css-loader?module', 'postcss-loader'].join('!') }
     ]
   },
-  postcss: [
-    cssnext({ browsers: 'last 2 versions' })
-  ],
-  resolve: {
-    extensions: ['', '.json', '.js', '.jsx', '.css']
-  },
   plugins: [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`
-    })
+    ...config.plugins,
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
   ],
   node: {
     fs: 'empty',

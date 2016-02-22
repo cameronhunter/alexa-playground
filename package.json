@@ -14,6 +14,9 @@
     "build:server": "webpack --config webpack.server.config.babel.js",
     "build:server:production": "NODE_ENV=production npm run build:server",
 
+    "prebuild:static": "npm run build:client:production",
+    "build:static": "babel-node bin/generate build/index.html",
+
     "prestart": "npm run build",
     "start": "nodemon --watch src --exec babel-node ./bin/server",
 

@@ -1,0 +1,13 @@
+#!/usr/bin/env babel-node
+
+import express from 'express';
+import request from 'supertest-as-promised';
+import server from '../build/server';
+import fs from 'fs';
+import path from 'path';
+
+const app = new express().use(server);
+
+request(app).get('/').then(({ text }) => {
+  fs.writeFileSync(path.join(process.cwd(), process.argv[2]), text);
+});

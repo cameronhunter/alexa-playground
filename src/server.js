@@ -7,6 +7,16 @@ import App from './containers/App';
 import routes from './routes';
 import createStore from './redux';
 
+const scripts = {
+  vendor: '/dist/vendor.js',
+  app: '/dist/app.js'
+};
+
+const styles = {
+  codemirror: '/dist/css/codemirror.css',
+  splitPanel: '/dist/css/splitPanel.css'
+};
+
 export default function(request, response, next) {
   match({ routes, location: request.url }, (error, redirectLocation, renderProps) => {
     if (error) {
@@ -26,7 +36,7 @@ export default function(request, response, next) {
 
     const html = ReactDOM.renderToStaticMarkup(
       <Provider store={store}>
-        <App scripts={{ vendor: '/dist/vendor.js', app: '/dist/app.js' }}>
+        <App styles={styles} scripts={scripts}>
           <RouterContext {...renderProps} />
         </App>
       </Provider>

@@ -1,36 +1,24 @@
-import webpack from 'webpack';
-import cssnext from 'cssnext';
-import path from 'path';
+import Path from 'path';
+import config from './webpack.common.config.babel.js';
+
+const path = (...args) => Path.join(__dirname, ...args);
 
 export default {
+  ...config,
   target: 'node',
   entry: {
-    server: path.join(__dirname, 'src', 'server.js')
+    server: path('src', 'server.js')
   },
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path('build'),
     filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
   module: {
+    ...config.module,
     loaders: [
-      { test: /\.css$/, loader: ['css-loader?module', 'postcss-loader'].join('!') },
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader', query: { cacheDirectory: true } }
+      ...config.module.loaders,
+      { test: /\.css$/, loader: ['css-loader?module', 'postcss-loader'].join('!') }
     ]
   },
-  postcss: [
-    cssnext({ browsers: 'last 2 versions' })
-  ],
-  resolve: {
-    extensions: ['', '.json', '.js', '.jsx', '.css']
-  },
-  plugins: [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`
-    })
-  ]
 };
