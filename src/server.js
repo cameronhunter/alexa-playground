@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/server';
 import { RouterContext, match, createMemoryHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import App from './containers/App';
+import Html from './components/Html';
 import routes from './routes';
 import createStore from './redux';
 
@@ -36,9 +36,9 @@ export default function(request, response, next) {
 
     const html = ReactDOM.renderToStaticMarkup(
       <Provider store={store}>
-        <App styles={styles} scripts={scripts}>
+        <Html styles={styles} scripts={scripts}>
           <RouterContext {...renderProps} />
-        </App>
+        </Html>
       </Provider>
     );
 

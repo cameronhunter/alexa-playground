@@ -1,7 +1,6 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-
-import Playground from './containers/Playground';
+import { Route } from 'react-router';
+import Playground from './components/Playground';
 
 export default (
   <Route path="*" component={Playground} />
