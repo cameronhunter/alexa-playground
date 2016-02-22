@@ -11,7 +11,6 @@ export default {
       'babel-core',
       'babel-plugin-transform-decorators-legacy',
       'babel-plugin-transform-es2015-modules-commonjs',
-      'babel-polyfill',
       'babel-preset-es2015',
       'babel-preset-stage-1',
       'codemirror/mode/javascript/javascript',
@@ -24,9 +23,9 @@ export default {
     ]
   },
   output: {
-    path: path.join(__dirname, 'static', 'dist'),
+    path: path.join(__dirname, 'build', 'www', 'assets'),
     filename: '[name].js',
-    publicPath: '/dist'
+    publicPath: '/assets'
   },
   module: {
     ...config.module,

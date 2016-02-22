@@ -22,7 +22,7 @@ if (!isProduction) {
   }));
 }
 
-app.use(Express.static(path.join(__dirname, '..', 'static')));
+app.use('/assets', Express.static(path.join(__dirname, '..', 'build', 'www', 'assets')));
 app.use(compression());
 app.use(application);
 

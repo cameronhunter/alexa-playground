@@ -132,13 +132,13 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var scripts = {
-	  vendor: '/dist/vendor.js',
-	  app: '/dist/app.js'
+	  vendor: 'assets/vendor.js',
+	  app: 'assets/app.js'
 	};
 
 	var styles = {
-	  codemirror: '/dist/css/codemirror.css',
-	  splitPanel: '/dist/css/splitPanel.css'
+	  codemirror: 'assets/codemirror.css',
+	  splitPanel: 'assets/splitPanel.css'
 	};
 
 /***/ },

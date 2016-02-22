@@ -1,4 +1,5 @@
 import Path from 'path';
+import copy from 'copy-webpack-plugin';
 import config from './webpack.common.config.babel.js';
 
 const path = (...args) => Path.join(__dirname, ...args);
@@ -21,4 +22,8 @@ export default {
       { test: /\.css$/, loader: ['css-loader?module', 'postcss-loader'].join('!') }
     ]
   },
+  plugins: [
+    ...config.plugins,
+    new copy([{ from: 'vendor', to: 'www/assets' }])
+  ]
 };

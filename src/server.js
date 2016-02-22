@@ -8,13 +8,13 @@ import routes from './routes';
 import createStore from './redux';
 
 const scripts = {
-  vendor: '/dist/vendor.js',
-  app: '/dist/app.js'
+  vendor: 'assets/vendor.js',
+  app: 'assets/app.js'
 };
 
 const styles = {
-  codemirror: '/dist/css/codemirror.css',
-  splitPanel: '/dist/css/splitPanel.css'
+  codemirror: 'assets/codemirror.css',
+  splitPanel: 'assets/splitPanel.css'
 };
 
 export default function(request, response, next) {
