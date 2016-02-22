@@ -27,9 +27,6 @@ webpackJsonp([1],{
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//import 'babel-polyfill';
-
-
 	var store = (0, _redux2.default)(_reactRouter.browserHistory);
 
 	_reactDom2.default.render(_react2.default.createElement(
@@ -642,6 +639,12 @@ webpackJsonp([1],{
 	          'Built using ',
 	          _react2.default.createElement(
 	            'a',
+	            { href: 'http://github.com/cameronhunter/alexa-lambda-skill' },
+	            'Alexa Lambda Skill'
+	          ),
+	          ', ',
+	          _react2.default.createElement(
+	            'a',
 	            { href: 'http://facebook.github.io/react/' },
 	            'React'
 	          ),
@@ -660,7 +663,7 @@ webpackJsonp([1],{
 	          ' | ',
 	          _react2.default.createElement(
 	            'a',
-	            { href: 'https://github.com/cameronhunter/alex-playground' },
+	            { href: 'https://github.com/cameronhunter/alexa-playground' },
 	            'GitHub'
 	          )
 	        )
@@ -680,6 +683,119 @@ webpackJsonp([1],{
 /***/ },
 
 /***/ 542:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(8);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactSplitPanel = __webpack_require__(882);
+
+	var _reactSplitPanel2 = _interopRequireDefault(_reactSplitPanel);
+
+	var _skill = __webpack_require__(547);
+
+	var _skill2 = _interopRequireDefault(_skill);
+
+	var _request = __webpack_require__(546);
+
+	var _request2 = _interopRequireDefault(_request);
+
+	var _Layout = __webpack_require__(541);
+
+	var _Layout2 = _interopRequireDefault(_Layout);
+
+	var _SkillEditor = __webpack_require__(544);
+
+	var _SkillEditor2 = _interopRequireDefault(_SkillEditor);
+
+	var _RequestEditor = __webpack_require__(543);
+
+	var _RequestEditor2 = _interopRequireDefault(_RequestEditor);
+
+	var _SkillResponse = __webpack_require__(545);
+
+	var _SkillResponse2 = _interopRequireDefault(_SkillResponse);
+
+	var _style = __webpack_require__(950);
+
+	var _style2 = _interopRequireDefault(_style);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Playground = function (_React$Component) {
+	  _inherits(Playground, _React$Component);
+
+	  function Playground(props) {
+	    _classCallCheck(this, Playground);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Playground).call(this, props));
+
+	    _this.state = {
+	      skill: props.skill,
+	      request: props.request
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Playground, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        _Layout2.default,
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: _style2.default.root },
+	          _react2.default.createElement(
+	            _reactSplitPanel2.default,
+	            { direction: 'horizontal', defaultWeights: [60, 40] },
+	            _react2.default.createElement(_SkillEditor2.default, { value: this.state.skill, onChange: function onChange(skill) {
+	                return _this2.setState({ skill: skill });
+	              } }),
+	            _react2.default.createElement(
+	              _reactSplitPanel2.default,
+	              { direction: 'vertical', defaultWeights: [50, 50] },
+	              _react2.default.createElement(_RequestEditor2.default, { value: this.state.request, onChange: function onChange(request) {
+	                  return _this2.setState({ request: request });
+	                } }),
+	              _react2.default.createElement(_SkillResponse2.default, { skill: this.state.skill, request: this.state.request })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Playground;
+	}(_react2.default.Component);
+
+	Playground.defaultProps = {
+	  skill: _skill2.default,
+	  request: _request2.default
+	};
+	exports.default = Playground;
+	;
+
+/***/ },
+
+/***/ 543:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -714,7 +830,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 543:
+/***/ 544:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -749,7 +865,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 544:
+/***/ 545:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -877,119 +993,6 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 545:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(8);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactSplitPanel = __webpack_require__(882);
-
-	var _reactSplitPanel2 = _interopRequireDefault(_reactSplitPanel);
-
-	var _skill = __webpack_require__(547);
-
-	var _skill2 = _interopRequireDefault(_skill);
-
-	var _request = __webpack_require__(546);
-
-	var _request2 = _interopRequireDefault(_request);
-
-	var _Layout = __webpack_require__(541);
-
-	var _Layout2 = _interopRequireDefault(_Layout);
-
-	var _SkillEditor = __webpack_require__(543);
-
-	var _SkillEditor2 = _interopRequireDefault(_SkillEditor);
-
-	var _RequestEditor = __webpack_require__(542);
-
-	var _RequestEditor2 = _interopRequireDefault(_RequestEditor);
-
-	var _SkillResponse = __webpack_require__(544);
-
-	var _SkillResponse2 = _interopRequireDefault(_SkillResponse);
-
-	var _style = __webpack_require__(950);
-
-	var _style2 = _interopRequireDefault(_style);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Playground = function (_React$Component) {
-	  _inherits(Playground, _React$Component);
-
-	  function Playground(props) {
-	    _classCallCheck(this, Playground);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Playground).call(this, props));
-
-	    _this.state = {
-	      skill: props.skill,
-	      request: props.request
-	    };
-	    return _this;
-	  }
-
-	  _createClass(Playground, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(
-	        _Layout2.default,
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: _style2.default.root },
-	          _react2.default.createElement(
-	            _reactSplitPanel2.default,
-	            { direction: 'horizontal', defaultWeights: [60, 40] },
-	            _react2.default.createElement(_SkillEditor2.default, { value: this.state.skill, onChange: function onChange(skill) {
-	                return _this2.setState({ skill: skill });
-	              } }),
-	            _react2.default.createElement(
-	              _reactSplitPanel2.default,
-	              { direction: 'vertical', defaultWeights: [50, 50] },
-	              _react2.default.createElement(_RequestEditor2.default, { value: this.state.request, onChange: function onChange(request) {
-	                  return _this2.setState({ request: request });
-	                } }),
-	              _react2.default.createElement(_SkillResponse2.default, { skill: this.state.skill, request: this.state.request })
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Playground;
-	}(_react2.default.Component);
-
-	Playground.defaultProps = {
-	  skill: _skill2.default,
-	  request: _request2.default
-	};
-	exports.default = Playground;
-	;
-
-/***/ },
-
 /***/ 546:
 /***/ function(module, exports) {
 
@@ -1073,7 +1076,7 @@ webpackJsonp([1],{
 
 	var _reactRouter = __webpack_require__(181);
 
-	var _Playground = __webpack_require__(545);
+	var _Playground = __webpack_require__(542);
 
 	var _Playground2 = _interopRequireDefault(_Playground);
 
@@ -1183,11 +1186,11 @@ webpackJsonp([1],{
 
 
 	// module
-	exports.push([module.id, "._1jkaGrQVPH5g7NWy0QZ-5l {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n", ""]);
+	exports.push([module.id, ".IRtmEtkjczveXrKDMQ5qF {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n", ""]);
 
 	// exports
 	exports.locals = {
-		"root": "_1jkaGrQVPH5g7NWy0QZ-5l"
+		"root": "IRtmEtkjczveXrKDMQ5qF"
 	};
 
 /***/ },
