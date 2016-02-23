@@ -16,7 +16,7 @@ export default class Layout extends React.Component {
           {this.props.children}
         </main>
         <footer className={style.footer}>
-          Built using <a href="http://github.com/cameronhunter/alexa-lambda-skill">Alexa Lambda Skill</a>, <a href="http://facebook.github.io/react/">React</a>, <a href="http://babeljs.io/">Babel</a> and <a href="http://codemirror.net/">CodeMirror</a> | <a href="https://github.com/cameronhunter/alexa-playground">GitHub</a>
+          Built using <a href="http://github.com/cameronhunter/alexa-lambda-skill">Alexa Lambda Skill</a>, <a href="http://babeljs.io/">Babel</a>, <a href="http://codemirror.net/">CodeMirror</a> and <a href="http://facebook.github.io/react/">React</a> | <a href="https://github.com/cameronhunter/alexa-playground">GitHub</a>
         </footer>
       </div>
     );
