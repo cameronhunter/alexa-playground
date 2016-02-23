@@ -19,6 +19,6 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    return <CodeMirror className={style.root} {...this.props} {...this.state} onChange={({ target }) => this.onChange(target.value)} />;
+    return <CodeMirror {...this.props} {...this.state} onChange={({ target }) => this.onChange(target.value)} />;
   }
 }

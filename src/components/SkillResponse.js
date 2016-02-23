@@ -6,6 +6,7 @@ import decorators from 'babel-plugin-transform-decorators-legacy';
 import es2015 from 'babel-preset-es2015';
 import stage1 from 'babel-preset-stage-1';
 import { transform } from 'babel-core';
+import Titled from './Titled';
 
 export default class SkillResponse extends React.Component {
   constructor(props) {
@@ -39,6 +40,10 @@ export default class SkillResponse extends React.Component {
   }
 
   render() {
-    return <Editor {...this.props} value={this.state.content} lineNumbers={false} readOnly={true} />;
+    return (
+      <Titled title='Response'>
+        <Editor {...this.props} value={this.state.content} lineNumbers={false} readOnly={true} />
+      </Titled>
+    );
   }
 }
