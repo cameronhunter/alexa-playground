@@ -1,6 +1,7 @@
 import Path from 'path';
 import copy from 'copy-webpack-plugin';
 import config from './webpack.common.config.babel.js';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const path = (...args) => Path.join(__dirname, ...args);
 
@@ -19,11 +20,12 @@ export default {
     ...config.module,
     loaders: [
       ...config.module.loaders,
-      { test: /\.css$/, loader: ['css/locals?module', 'postcss'].join('!') }
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css?module', 'postcss') }
     ]
   },
   plugins: [
     ...config.plugins,
-    new copy([{ from: 'vendor', to: 'www/assets' }])
+    new copy([{ from: 'vendor', to: 'www/assets' }]),
+    new ExtractTextPlugin('www/assets/app.css')
   ]
 };

@@ -13,6 +13,7 @@ const scripts = {
 };
 
 const styles = {
+  app: 'assets/app.css',
   codemirror: 'assets/codemirror.css',
   splitPanel: 'assets/splitPanel.css'
 };
