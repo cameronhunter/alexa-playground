@@ -20,7 +20,7 @@ export default {
     ...config.module,
     loaders: [
       ...config.module.loaders,
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css?module', 'postcss') }
+      { test: /\.css$/, exclude: /node_modules/, loader: ExtractTextPlugin.extract('style', 'css?module', 'postcss') }
     ]
   },
   plugins: [
