@@ -18,6 +18,7 @@ export default {
       'react',
       'react-code-mirror',
       'react-dom',
+      'react-ga',
       'react-redux',
       'react-router'
     ]

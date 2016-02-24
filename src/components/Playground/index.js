@@ -1,5 +1,6 @@
 import React from 'react';
 import SplitPanel from 'react-split-panel';
+import GoogleAnalytics from 'react-ga';
 
 import SkillFixture from '../../fixtures/skill';
 import RequestFixture from '../../fixtures/request';
@@ -23,6 +24,11 @@ export default class Playground extends React.Component {
       skill: props.skill,
       request: props.request
     };
+  }
+
+  componentDidMount() {
+    GoogleAnalytics.initialize('UA-1802050-13');
+    GoogleAnalytics.pageview(this.props.location.pathname);
   }
 
   render() {
