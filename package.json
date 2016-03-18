@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "alexa-lambda-skill": "^2.0.2",
-    "ava": "^0.12.0",
+    "ava": "^0.13.0",
     "babel": "^6.5.2",
     "babel-cli": "^6.4.5",
     "babel-core": "^6.5.2",
