@@ -8,7 +8,7 @@ import application from '../build/server';
 // Development imports
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import config from '../webpack.client.config.babel.js';
+import { client as config } from '../webpack.config.babel.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const port = (isProduction && process.env.PORT) || 3001;
