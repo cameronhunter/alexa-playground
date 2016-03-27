@@ -9,12 +9,18 @@ export default class HelloWorld {
 
   @Intent(&#x27;HelloWorldIntent&#x27;)
   hello({ name = &#x27;World&#x27; }) {
-    return Response.say(`Hello ${name}!`).card(&#x27;Greeter&#x27;, `Hello ${name}!`);
+    return Response.say(`Hello ${name}!`).card({ title: &#x27;Greeter&#x27;, content: `Hello ${name}!` });
   }
 
   @Intent(&#x27;AMAZON.HelpIntent&#x27;)
   help() {
-    return Response.ask(&#x27;You can say hello to me!&#x27;).reprompt(&#x27;You can say hello to me!&#x27;);
+    const speech = (
+      &lt;speak&gt;
+        &lt;p&gt;You can say hello to me!&lt;/p&gt;
+      &lt;/speak&gt;
+    );
+
+    return Response.ask(speech).reprompt(&#x27;You can say hello to me!&#x27;);
   }
 
 }
