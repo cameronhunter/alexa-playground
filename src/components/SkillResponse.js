@@ -3,6 +3,7 @@ import Try from 'promise-try';
 import Editor from './Editor';
 import commonjs from 'babel-plugin-transform-es2015-modules-commonjs';
 import decorators from 'babel-plugin-transform-decorators-legacy';
+import reactJSX from 'babel-plugin-transform-react-jsx';
 import es2015 from 'babel-preset-es2015';
 import stage1 from 'babel-preset-stage-1';
 import { transform } from 'babel-core';
@@ -19,10 +20,16 @@ export default class SkillResponse extends React.Component {
 
     const Skill = Try(() => {
       const exports = {};
-      const { Response, Launch, Intent, Skill, SessionEnded } = require('alexa-lambda-skill');
+      const { Launch, Intent, Skill, SessionEnded } = require('alexa-lambda-skill');
+      const Response = require('alexa-response');
+      const { ssml } = require('alexa-ssml');
       const source = transform(props.skill, {
         presets: [es2015, stage1],
-        plugins: [decorators, commonjs]
+        plugins: [
+          decorators,
+          commonjs,
+          [reactJSX, { pragma: 'ssml' }]
+        ]
       });
 
       eval(source.code);
