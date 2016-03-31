@@ -17,11 +17,11 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(385);
 
-	var _routes = __webpack_require__(621);
+	var _routes = __webpack_require__(622);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _redux = __webpack_require__(619);
+	var _redux = __webpack_require__(620);
 
 	var _redux2 = _interopRequireDefault(_redux);
 
@@ -368,7 +368,7 @@ webpackJsonp([1],{
 
 	var _reactCodeMirror2 = _interopRequireDefault(_reactCodeMirror);
 
-	var _style = __webpack_require__(1106);
+	var _style = __webpack_require__(1110);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -435,7 +435,7 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _style = __webpack_require__(1109);
+	var _style = __webpack_require__(1113);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -465,159 +465,88 @@ webpackJsonp([1],{
 
 	'use strict';
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.routeReducer = routeReducer;
-	exports.syncHistory = syncHistory;
+	/**
+	 * This action type will be dispatched by the history actions below.
+	 * If you're writing a middleware to watch for navigation events, be sure to
+	 * look for actions of this type.
+	 */
+	var CALL_HISTORY_METHOD = exports.CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	// Constants
-
-	var TRANSITION = exports.TRANSITION = '@@router/TRANSITION';
-	var UPDATE_LOCATION = exports.UPDATE_LOCATION = '@@router/UPDATE_LOCATION';
-
-	var SELECT_LOCATION = function SELECT_LOCATION(state) {
-	  return state.routing.location;
-	};
-
-	function transition(method) {
+	function updateLocation(method) {
 	  return function () {
 	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	      args[_key] = arguments[_key];
 	    }
 
 	    return {
-	      type: TRANSITION,
+	      type: CALL_HISTORY_METHOD,
 	      payload: { method: method, args: args }
 	    };
 	  };
 	}
 
-	var push = exports.push = transition('push');
-	var replace = exports.replace = transition('replace');
-	var go = exports.go = transition('go');
-	var goBack = exports.goBack = transition('goBack');
-	var goForward = exports.goForward = transition('goForward');
+	/**
+	 * These actions correspond to the history API.
+	 * The associated routerMiddleware will capture these events before they get to
+	 * your reducer and reissue them as the matching function on your history.
+	 */
+	var push = exports.push = updateLocation('push');
+	var replace = exports.replace = updateLocation('replace');
+	var go = exports.go = updateLocation('go');
+	var goBack = exports.goBack = updateLocation('goBack');
+	var goForward = exports.goForward = updateLocation('goForward');
 
-	var routeActions = exports.routeActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
-
-	function updateLocation(location) {
-	  return {
-	    type: UPDATE_LOCATION,
-	    payload: location
-	  };
-	}
-
-	// Reducer
-
-	var initialState = {
-	  location: undefined
-	};
-
-	function routeReducer() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	  var _ref = arguments[1];
-	  var type = _ref.type;
-	  var location = _ref.payload;
-
-	  if (type !== UPDATE_LOCATION) {
-	    return state;
-	  }
-
-	  return _extends({}, state, { location: location });
-	}
-
-	// Syncing
-
-	function syncHistory(history) {
-	  var unsubscribeHistory = undefined,
-	      currentKey = undefined,
-	      unsubscribeStore = undefined;
-	  var connected = false,
-	      syncing = false;
-
-	  history.listen(function (location) {
-	    initialState.location = location;
-	  })();
-
-	  function middleware(store) {
-	    unsubscribeHistory = history.listen(function (location) {
-	      currentKey = location.key;
-	      if (syncing) {
-	        // Don't dispatch a new action if we're replaying location.
-	        return;
-	      }
-
-	      store.dispatch(updateLocation(location));
-	    });
-
-	    connected = true;
-
-	    return function (next) {
-	      return function (action) {
-	        if (action.type !== TRANSITION || !connected) {
-	          return next(action);
-	        }
-
-	        var _action$payload = action.payload;
-	        var method = _action$payload.method;
-	        var args = _action$payload.args;
-
-	        history[method].apply(history, _toConsumableArray(args));
-	      };
-	    };
-	  }
-
-	  middleware.listenForReplays = function (store) {
-	    var selectLocationState = arguments.length <= 1 || arguments[1] === undefined ? SELECT_LOCATION : arguments[1];
-
-	    var getLocationState = function getLocationState() {
-	      return selectLocationState(store.getState());
-	    };
-	    var initialLocation = getLocationState();
-
-	    unsubscribeStore = store.subscribe(function () {
-	      var location = getLocationState();
-
-	      // If we're resetting to the beginning, use the saved initial value. We
-	      // need to dispatch a new action at this point to populate the store
-	      // appropriately.
-	      if (location.key === initialLocation.key) {
-	        history.replace(initialLocation);
-	        return;
-	      }
-
-	      // Otherwise, if we need to update the history location, do so without
-	      // dispatching a new action, as we're just bringing history in sync
-	      // with the store.
-	      if (location.key !== currentKey) {
-	        syncing = true;
-	        history.transitionTo(location);
-	        syncing = false;
-	      }
-	    });
-	  };
-
-	  middleware.unsubscribe = function () {
-	    unsubscribeHistory();
-	    if (unsubscribeStore) {
-	      unsubscribeStore();
-	    }
-
-	    connected = false;
-	  };
-
-	  return middleware;
-	}
-
+	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
 
 /***/ },
 
-/***/ 577:
+/***/ 388:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.routerReducer = routerReducer;
+	/**
+	 * This action type will be dispatched when your history
+	 * receives a location change.
+	 */
+	var LOCATION_CHANGE = exports.LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
+
+	var initialState = {
+	  locationBeforeTransitions: null
+	};
+
+	/**
+	 * This reducer will update the state with the most recent location history
+	 * has transitioned to. This may not be in sync with the router, particularly
+	 * if you have asynchronously-loaded routes, so reading from and relying on
+	 * this state it is discouraged.
+	 */
+	function routerReducer() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var _ref = arguments[1];
+	  var type = _ref.type;
+	  var payload = _ref.payload;
+
+	  if (type === LOCATION_CHANGE) {
+	    return _extends({}, state, { locationBeforeTransitions: payload });
+	  }
+
+	  return state;
+	}
+
+/***/ },
+
+/***/ 578:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -796,7 +725,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 612:
+/***/ 613:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -811,7 +740,7 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _style = __webpack_require__(1107);
+	var _style = __webpack_require__(1111);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -897,7 +826,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 613:
+/***/ 614:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -912,7 +841,7 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactSplitPanel = __webpack_require__(1040);
+	var _reactSplitPanel = __webpack_require__(1044);
 
 	var _reactSplitPanel2 = _interopRequireDefault(_reactSplitPanel);
 
@@ -920,31 +849,31 @@ webpackJsonp([1],{
 
 	var _reactGa2 = _interopRequireDefault(_reactGa);
 
-	var _skill = __webpack_require__(618);
+	var _skill = __webpack_require__(619);
 
 	var _skill2 = _interopRequireDefault(_skill);
 
-	var _request = __webpack_require__(617);
+	var _request = __webpack_require__(618);
 
 	var _request2 = _interopRequireDefault(_request);
 
-	var _Layout = __webpack_require__(612);
+	var _Layout = __webpack_require__(613);
 
 	var _Layout2 = _interopRequireDefault(_Layout);
 
-	var _SkillEditor = __webpack_require__(615);
+	var _SkillEditor = __webpack_require__(616);
 
 	var _SkillEditor2 = _interopRequireDefault(_SkillEditor);
 
-	var _RequestEditor = __webpack_require__(614);
+	var _RequestEditor = __webpack_require__(615);
 
 	var _RequestEditor2 = _interopRequireDefault(_RequestEditor);
 
-	var _SkillResponse = __webpack_require__(616);
+	var _SkillResponse = __webpack_require__(617);
 
 	var _SkillResponse2 = _interopRequireDefault(_SkillResponse);
 
-	var _style = __webpack_require__(1108);
+	var _style = __webpack_require__(1112);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -1020,7 +949,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 614:
+/***/ 615:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1063,7 +992,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 615:
+/***/ 616:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1106,7 +1035,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 616:
+/***/ 617:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1141,7 +1070,7 @@ webpackJsonp([1],{
 
 	var _babelPluginTransformDecoratorsLegacy2 = _interopRequireDefault(_babelPluginTransformDecoratorsLegacy);
 
-	var _babelPluginTransformReactJsx = __webpack_require__(679);
+	var _babelPluginTransformReactJsx = __webpack_require__(680);
 
 	var _babelPluginTransformReactJsx2 = _interopRequireDefault(_babelPluginTransformReactJsx);
 
@@ -1251,7 +1180,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 617:
+/***/ 618:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1263,7 +1192,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 618:
+/***/ 619:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1272,31 +1201,6 @@ webpackJsonp([1],{
 	  value: true
 	});
 	exports.default = "@Skill\nexport default class HelloWorld {\n\n  @Launch\n  launch() {\n    return Response.ask('Welcome to the Alexa Skills Kit, you can say hello').reprompt('You can say hello');\n  }\n\n  @Intent('HelloWorldIntent')\n  hello({ name = 'World' }) {\n    return Response.say(`Hello ${name}!`).card({ title: 'Greeter', content: `Hello ${name}!` });\n  }\n\n  @Intent('AMAZON.HelpIntent')\n  help() {\n    const speech = (\n      <speak>\n        <p>You can say hello to me!</p>\n      </speak>\n    );\n\n    return Response.ask(speech).reprompt('You can say hello to me!');\n  }\n\n}\n";
-
-/***/ },
-
-/***/ 619:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRouterRedux = __webpack_require__(387);
-
-	var _redux = __webpack_require__(235);
-
-	var _modules = __webpack_require__(620);
-
-	var _modules2 = _interopRequireDefault(_modules);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function (history) {
-	  return (0, _redux.createStore)(_modules2.default, (0, _redux.applyMiddleware)((0, _reactRouterRedux.syncHistory)(history)));
-	};
 
 /***/ },
 
@@ -1311,7 +1215,30 @@ webpackJsonp([1],{
 
 	var _redux = __webpack_require__(235);
 
-	var _reactRouterRedux = __webpack_require__(387);
+	var _modules = __webpack_require__(621);
+
+	var _modules2 = _interopRequireDefault(_modules);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (history) {
+	  return (0, _redux.createStore)(_modules2.default, (0, _redux.applyMiddleware)());
+	};
+
+/***/ },
+
+/***/ 621:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(235);
+
+	var _reactRouterRedux = __webpack_require__(1022);
 
 	exports.default = (0, _redux.combineReducers)({
 	  routing: _reactRouterRedux.routeReducer
@@ -1319,7 +1246,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 621:
+/***/ 622:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1334,7 +1261,7 @@ webpackJsonp([1],{
 
 	var _reactRouter = __webpack_require__(215);
 
-	var _Playground = __webpack_require__(613);
+	var _Playground = __webpack_require__(614);
 
 	var _Playground2 = _interopRequireDefault(_Playground);
 
@@ -1344,7 +1271,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 628:
+/***/ 629:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1363,7 +1290,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 679:
+/***/ 680:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint max-len: 0 */
@@ -1377,7 +1304,7 @@ webpackJsonp([1],{
 
 	  var JSX_ANNOTATION_REGEX = /\*?\s*@jsx\s+([^\s]+)/;
 
-	  var visitor = __webpack_require__(577)({
+	  var visitor = __webpack_require__(578)({
 	    pre: function pre(state) {
 	      var tagName = state.tagName;
 	      var args = state.args;
@@ -1422,7 +1349,7 @@ webpackJsonp([1],{
 	  };
 
 	  return {
-	    inherits: __webpack_require__(628),
+	    inherits: __webpack_require__(629),
 	    visitor: visitor
 	  };
 	};
@@ -1431,7 +1358,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 884:
+/***/ 885:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1486,7 +1413,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 890:
+/***/ 891:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(126)();
@@ -1503,7 +1430,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 891:
+/***/ 892:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(126)();
@@ -1523,7 +1450,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 892:
+/***/ 893:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(126)();
@@ -1540,7 +1467,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 893:
+/***/ 894:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(126)();
@@ -1558,7 +1485,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 1003:
+/***/ 1004:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -16639,7 +16566,284 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 1040:
+/***/ 1022:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
+
+	var _reducer = __webpack_require__(388);
+
+	Object.defineProperty(exports, 'LOCATION_CHANGE', {
+	  enumerable: true,
+	  get: function get() {
+	    return _reducer.LOCATION_CHANGE;
+	  }
+	});
+	Object.defineProperty(exports, 'routerReducer', {
+	  enumerable: true,
+	  get: function get() {
+	    return _reducer.routerReducer;
+	  }
+	});
+
+	var _actions = __webpack_require__(387);
+
+	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.CALL_HISTORY_METHOD;
+	  }
+	});
+	Object.defineProperty(exports, 'push', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.push;
+	  }
+	});
+	Object.defineProperty(exports, 'replace', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.replace;
+	  }
+	});
+	Object.defineProperty(exports, 'go', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.go;
+	  }
+	});
+	Object.defineProperty(exports, 'goBack', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.goBack;
+	  }
+	});
+	Object.defineProperty(exports, 'goForward', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.goForward;
+	  }
+	});
+	Object.defineProperty(exports, 'routerActions', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.routerActions;
+	  }
+	});
+
+	var _sync = __webpack_require__(1024);
+
+	var _sync2 = _interopRequireDefault(_sync);
+
+	var _middleware = __webpack_require__(1023);
+
+	var _middleware2 = _interopRequireDefault(_middleware);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.syncHistoryWithStore = _sync2.default;
+	exports.routerMiddleware = _middleware2.default;
+
+/***/ },
+
+/***/ 1023:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = routerMiddleware;
+
+	var _actions = __webpack_require__(387);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	/**
+	 * This middleware captures CALL_HISTORY_METHOD actions to redirect to the
+	 * provided history object. This will prevent these actions from reaching your
+	 * reducer or any middleware that comes after this one.
+	 */
+	function routerMiddleware(history) {
+	  return function () {
+	    return function (next) {
+	      return function (action) {
+	        if (action.type !== _actions.CALL_HISTORY_METHOD) {
+	          return next(action);
+	        }
+
+	        var _action$payload = action.payload;
+	        var method = _action$payload.method;
+	        var args = _action$payload.args;
+
+	        history[method].apply(history, _toConsumableArray(args));
+	      };
+	    };
+	  };
+	}
+
+/***/ },
+
+/***/ 1024:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.default = syncHistoryWithStore;
+
+	var _reducer = __webpack_require__(388);
+
+	var defaultSelectLocationState = function defaultSelectLocationState(state) {
+	  return state.routing;
+	};
+
+	/**
+	 * This function synchronizes your history state with the Redux store.
+	 * Location changes flow from history to the store. An enhanced history is
+	 * returned with a listen method that responds to store updates for location.
+	 *
+	 * When this history is provided to the router, this means the location data
+	 * will flow like this:
+	 * history.push -> store.dispatch -> enhancedHistory.listen -> router
+	 * This ensures that when the store state changes due to a replay or other
+	 * event, the router will be updated appropriately and can transition to the
+	 * correct router state.
+	 */
+	function syncHistoryWithStore(history, store) {
+	  var _ref = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  var _ref$selectLocationSt = _ref.selectLocationState;
+	  var selectLocationState = _ref$selectLocationSt === undefined ? defaultSelectLocationState : _ref$selectLocationSt;
+	  var _ref$adjustUrlOnRepla = _ref.adjustUrlOnReplay;
+	  var adjustUrlOnReplay = _ref$adjustUrlOnRepla === undefined ? true : _ref$adjustUrlOnRepla;
+
+	  // Ensure that the reducer is mounted on the store and functioning properly.
+	  if (typeof selectLocationState(store.getState()) === 'undefined') {
+	    throw new Error('Expected the routing state to be available either as `state.routing` ' + 'or as the custom expression you can specify as `selectLocationState` ' + 'in the `syncHistoryWithStore()` options. ' + 'Ensure you have added the `routerReducer` to your store\'s ' + 'reducers via `combineReducers` or whatever method you use to isolate ' + 'your reducers.');
+	  }
+
+	  var initialLocation = undefined;
+	  var currentLocation = undefined;
+	  var isTimeTraveling = undefined;
+	  var unsubscribeFromStore = undefined;
+	  var unsubscribeFromHistory = undefined;
+
+	  // What does the store say about current location?
+	  var getLocationInStore = function getLocationInStore(useInitialIfEmpty) {
+	    var locationState = selectLocationState(store.getState());
+	    return locationState.locationBeforeTransitions || (useInitialIfEmpty ? initialLocation : undefined);
+	  };
+
+	  // If the store is replayed, update the URL in the browser to match.
+	  if (adjustUrlOnReplay) {
+	    var handleStoreChange = function handleStoreChange() {
+	      var locationInStore = getLocationInStore(true);
+	      if (currentLocation === locationInStore) {
+	        return;
+	      }
+
+	      // Update address bar to reflect store state
+	      isTimeTraveling = true;
+	      currentLocation = locationInStore;
+	      history.transitionTo(_extends({}, locationInStore, {
+	        action: 'PUSH'
+	      }));
+	      isTimeTraveling = false;
+	    };
+
+	    unsubscribeFromStore = store.subscribe(handleStoreChange);
+	    handleStoreChange();
+	  }
+
+	  // Whenever location changes, dispatch an action to get it in the store
+	  var handleLocationChange = function handleLocationChange(location) {
+	    // ... unless we just caused that location change
+	    if (isTimeTraveling) {
+	      return;
+	    }
+
+	    // Remember where we are
+	    currentLocation = location;
+
+	    // Are we being called for the first time?
+	    if (!initialLocation) {
+	      // Remember as a fallback in case state is reset
+	      initialLocation = location;
+
+	      // Respect persisted location, if any
+	      if (getLocationInStore()) {
+	        return;
+	      }
+	    }
+
+	    // Tell the store to update by dispatching an action
+	    store.dispatch({
+	      type: _reducer.LOCATION_CHANGE,
+	      payload: location
+	    });
+	  };
+	  unsubscribeFromHistory = history.listen(handleLocationChange);
+
+	  // The enhanced history uses store as source of truth
+	  return _extends({}, history, {
+	    // The listeners are subscribed to the store instead of history
+
+	    listen: function listen(listener) {
+	      // Copy of last location.
+	      var lastPublishedLocation = getLocationInStore(true);
+
+	      // Keep track of whether we unsubscribed, as Redux store
+	      // only applies changes in subscriptions on next dispatch
+	      var unsubscribed = false;
+	      var unsubscribeFromStore = store.subscribe(function () {
+	        var currentLocation = getLocationInStore(true);
+	        if (currentLocation === lastPublishedLocation) {
+	          return;
+	        }
+	        lastPublishedLocation = currentLocation;
+	        if (!unsubscribed) {
+	          listener(lastPublishedLocation);
+	        }
+	      });
+
+	      // History listeners expect a synchronous call. Make the first call to the
+	      // listener after subscribing to the store, in case the listener causes a
+	      // location change (e.g. when it redirects)
+	      listener(lastPublishedLocation);
+
+	      // Let user unsubscribe later
+	      return function () {
+	        unsubscribed = true;
+	        unsubscribeFromStore();
+	      };
+	    },
+
+
+	    // It also provides a way to destroy internal listeners
+	    unsubscribe: function unsubscribe() {
+	      if (adjustUrlOnReplay) {
+	        unsubscribeFromStore();
+	      }
+	      unsubscribeFromHistory();
+	    }
+	  });
+	}
+
+/***/ },
+
+/***/ 1044:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -16654,11 +16858,11 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(884);
+	var _classnames = __webpack_require__(885);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _lodash = __webpack_require__(1003);
+	var _lodash = __webpack_require__(1004);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -17088,19 +17292,19 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 1106:
-[1192, 890],
+/***/ 1110:
+[1196, 891],
 
-/***/ 1107:
-[1192, 891],
+/***/ 1111:
+[1196, 892],
 
-/***/ 1108:
-[1192, 892],
+/***/ 1112:
+[1196, 893],
 
-/***/ 1109:
-[1192, 893],
+/***/ 1113:
+[1196, 894],
 
-/***/ 1192:
+/***/ 1196:
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
