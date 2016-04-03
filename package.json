@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "alexa-lambda-skill": "^3.0.3",
-    "alexa-response": "^3.0.0",
+    "alexa-response": "^3.0.1",
     "alexa-ssml": "^0.5.0",
     "ava": "^0.13.0",
     "babel": "^6.5.2",
