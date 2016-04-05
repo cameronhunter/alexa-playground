@@ -30,7 +30,7 @@
     "redux": "^3.2.1"
   },
   "devDependencies": {
-    "alexa-lambda-skill": "^3.0.3",
+    "alexa-lambda-skill": "^4.0.0",
     "alexa-response": "^3.0.1",
     "alexa-ssml": "^0.5.0",
     "ava": "^0.13.0",
