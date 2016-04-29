@@ -55,7 +55,7 @@
     "eslint": "^2.7.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "json-loader": "^0.5.4",
-    "nodemon": "^1.9.1",
+    "nodemon": "^1.9.2",
     "postcss-loader": "^0.8.2",
     "promise-try": "^1.0.1",
     "react-code-mirror": "^3.0.6",
