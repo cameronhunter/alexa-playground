@@ -19,7 +19,7 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "babel-polyfill": "^6.3.14",
+    "babel-polyfill": "^6.9.0",
     "compression": "^1.6.1",
     "express": "^4.13.4",
     "react": "^0.14.8",
